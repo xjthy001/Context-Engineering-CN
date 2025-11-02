@@ -176,17 +176,19 @@ export default withMermaid(defineConfig({
           items: [
             { text: '理论概览', link: '/00_foundations/README' },
             { text: '01. 原子: 提示', link: '/00_foundations/01_atoms_prompting' },
-            { text: '02. 分子: 少样本学习', link: '/00_foundations/02_molecules_few_shot' },
-            { text: '03. 细胞: 记忆+智能体', link: '/00_foundations/03_cells_memory_agents' },
-            { text: '04. 器官: 多智能体', link: '/00_foundations/04_organs_multi_agent' },
-            { text: '05. 神经系统: 认知工具', link: '/00_foundations/05_nervous_system_cognitive_tools' },
-            { text: '06. 场论: 神经场', link: '/00_foundations/06_unified_field_theory' },
-            { text: '07. 神经场基础', link: '/00_foundations/07_neural_fields' },
-            { text: '08. 吸引子动力学', link: '/00_foundations/08_attractor_dynamics' },
-            { text: '09. 符号机制', link: '/00_foundations/09_symbolic_mechanisms' },
-            { text: '10. 持久化系统', link: '/00_foundations/10_persistence' },
-            { text: '11. 量子语义', link: '/00_foundations/11_quantum_semantics' },
-            { text: '12. 元递归', link: '/00_foundations/12_meta_recursion' }
+            { text: '02. 分子: 上下文', link: '/00_foundations/02_molecules_context' },
+            { text: '03. 细胞: 记忆', link: '/00_foundations/03_cells_memory' },
+            { text: '04. 器官: 应用', link: '/00_foundations/04_organs_applications' },
+            { text: '05. 认知工具', link: '/00_foundations/05_cognitive_tools' },
+            { text: '06. 高级应用', link: '/00_foundations/06_advanced_applications' },
+            { text: '07. 提示编程', link: '/00_foundations/07_prompt_programming' },
+            { text: '08. 神经场基础', link: '/00_foundations/08_neural_fields_foundations' },
+            { text: '09. 持久化和共振', link: '/00_foundations/09_persistence_and_resonance' },
+            { text: '10. 场论编排', link: '/00_foundations/10_field_orchestration' },
+            { text: '11. 涌现和吸引子动力学', link: '/00_foundations/11_emergence_and_attractor_dynamics' },
+            { text: '12. 符号机制', link: '/00_foundations/12_symbolic_mechanisms' },
+            { text: '13. 量子语义', link: '/00_foundations/13_quantum_semantics' },
+            { text: '14. 统一场论', link: '/00_foundations/14_unified_field_theory' }
           ]
         }
       ],
