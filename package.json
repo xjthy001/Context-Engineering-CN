@@ -1,0 +1,26 @@
+{
+  "name": "context-engineering-cn",
+  "version": "1.0.0",
+  "description": "Context Engineering 中文版 - 上下文工程完整教程",
+  "type": "module",
+  "scripts": {
+    "docs:dev": "vitepress dev",
+    "docs:build": "vitepress build",
+    "docs:preview": "vitepress preview"
+  },
+  "keywords": [
+    "context-engineering",
+    "ai",
+    "prompt-engineering",
+    "rag",
+    "multi-agent",
+    "chinese"
+  ],
+  "author": "Tam",
+  "license": "MIT",
+  "devDependencies": {
+    "markdown-it-mathjax3": "^4.3.2",
+    "vitepress": "^1.6.4",
+    "vue": "^3.5.22"
+  }
+}
