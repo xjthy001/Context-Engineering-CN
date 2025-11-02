@@ -439,7 +439,7 @@
 
 **文档版本**: v1.0
 **最后更新**: 2025-10-30
-**维护**: Context Engineering 翻译团队
+**维护**: Tam (xjthy001@gmail.com)
 
 ---
 

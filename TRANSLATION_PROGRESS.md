@@ -344,6 +344,6 @@
 
 ---
 
-**文档维护**: Context Engineering 翻译团队
+**文档维护**: Tam (xjthy001@gmail.com)
 **最后更新**: 2025-10-30
 **版本**: v1.0
