@@ -198,16 +198,63 @@ export default withMermaid(defineConfig({
           text: '🎨 无代码方案',
           items: [
             { text: 'NOCODE概览', link: '/NOCODE/README' },
-            { text: '00. 心智模型', link: '/NOCODE/00_mental_models/README' },
-            { text: '01. 对话协议', link: '/NOCODE/01_conversation_protocols/README' },
-            { text: '02. 文档协议', link: '/NOCODE/02_documentation_protocols/README' },
-            { text: '03. 创意协议', link: '/NOCODE/03_creative_protocols/README' },
-            { text: '04. 研究协议', link: '/NOCODE/04_research_protocols/README' },
-            { text: '05. 问题解决', link: '/NOCODE/05_problem_solving/README' },
-            { text: '06. 决策协议', link: '/NOCODE/06_decision_protocols/README' },
-            { text: '07. 学习协议', link: '/NOCODE/07_learning_protocols/README' },
-            { text: '08. 协作协议', link: '/NOCODE/08_collaboration_protocols/README' },
-            { text: '09. 个人发展', link: '/NOCODE/09_personal_development/README' }
+            {
+              text: '00. 基础知识',
+              collapsed: true,
+              items: [
+                { text: '介绍', link: '/NOCODE/00_foundations/01_introduction' },
+                { text: 'Token预算', link: '/NOCODE/00_foundations/02_token_budgeting' },
+                { text: '协议外壳', link: '/NOCODE/00_foundations/03_protocol_shells' },
+                { text: '场论', link: '/NOCODE/00_foundations/05_field_theory' }
+              ]
+            },
+            {
+              text: '10. 心智模型',
+              collapsed: true,
+              items: [
+                { text: '花园模型', link: '/NOCODE/10_mental_models/01_garden_model' },
+                { text: '预算模型', link: '/NOCODE/10_mental_models/02_budget_model' },
+                { text: '河流模型', link: '/NOCODE/10_mental_models/03_river_model' },
+                { text: '生物心理社会模型', link: '/NOCODE/10_mental_models/04_biopsychosocial_model' },
+                { text: '炼金术模型', link: '/NOCODE/10_mental_models/05_alchemy_model' }
+              ]
+            },
+            {
+              text: '20. 实践协议',
+              collapsed: true,
+              items: [
+                { text: '对话协议', link: '/NOCODE/20_practical_protocols/01_conversation_protocols' },
+                { text: '文档协议', link: '/NOCODE/20_practical_protocols/02_document_protocols' },
+                { text: '创意协议', link: '/NOCODE/20_practical_protocols/03_creative_protocols' },
+                { text: '研究协议', link: '/NOCODE/20_practical_protocols/04_research_protocols' },
+                { text: '知识协议', link: '/NOCODE/20_practical_protocols/05_knowledge_protocols' },
+                { text: '元递归协议', link: '/NOCODE/20_practical_protocols/06_meta_recursive_protocols' },
+                { text: '可解释性协议', link: '/NOCODE/20_practical_protocols/07_interpretability_protocols' },
+                { text: '协作协议', link: '/NOCODE/20_practical_protocols/08_collaborative_protocols' },
+                { text: '跨模态协议', link: '/NOCODE/20_practical_protocols/09_cross_modal_protocols' }
+              ]
+            },
+            {
+              text: '30. 场论技术',
+              collapsed: true,
+              items: [
+                { text: '概览', link: '/NOCODE/30_field_techniques/README' }
+              ]
+            },
+            {
+              text: '40. 协议设计',
+              collapsed: true,
+              items: [
+                { text: '概览', link: '/NOCODE/40_protocol_design/README' }
+              ]
+            },
+            {
+              text: '50. 高级集成',
+              collapsed: true,
+              items: [
+                { text: '概览', link: '/NOCODE/50_advanced_integration/README' }
+              ]
+            }
           ]
         }
       ]
