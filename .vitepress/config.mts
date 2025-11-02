@@ -275,6 +275,8 @@ export default withMermaid(defineConfig({
   markdown: {
     lineNumbers: true,
     math: true  // 启用数学公式支持
+    // 注意: ascii 和 math 语言的警告是正常的，不影响构建
+    // VitePress 会自动 fallback 到 text 显示
   },
 
   // Mermaid 配置
