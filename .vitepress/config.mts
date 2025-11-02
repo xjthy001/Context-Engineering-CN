@@ -139,33 +139,33 @@ export default withMermaid(defineConfig({
           ]
         },
         {
-          text: '08. 神经场论',
+          text: '08. 场论集成',
           collapsed: true,
           items: [
-            { text: '概览', link: '/00_COURSE/08_neural_field_theory/README' },
-            { text: '00. 神经场基础', link: '/00_COURSE/08_neural_field_theory/00_neural_field_foundations' },
-            { text: '01. 吸引子动力学', link: '/00_COURSE/08_neural_field_theory/01_attractor_dynamics' },
-            { text: '02. 场共振', link: '/00_COURSE/08_neural_field_theory/02_field_resonance' },
-            { text: '03. 边界管理', link: '/00_COURSE/08_neural_field_theory/03_boundary_management' }
+            { text: '概览', link: '/00_COURSE/08_field_theory_integration/README' },
+            { text: '00. 神经场基础', link: '/00_COURSE/08_field_theory_integration/00_neural_field_foundations' },
+            { text: '01. 吸引子动力学', link: '/00_COURSE/08_field_theory_integration/01_attractor_dynamics' },
+            { text: '02. 场共振', link: '/00_COURSE/08_field_theory_integration/02_field_resonance' },
+            { text: '03. 边界管理', link: '/00_COURSE/08_field_theory_integration/03_boundary_management' }
           ]
         },
         {
-          text: '09. 评估与基准',
+          text: '09. 评估方法论',
           collapsed: true,
           items: [
-            { text: '概览', link: '/00_COURSE/09_evaluation_benchmarks/README' },
-            { text: '00. 评估框架', link: '/00_COURSE/09_evaluation_benchmarks/00_evaluation_frameworks' },
-            { text: '01. 组件评估', link: '/00_COURSE/09_evaluation_benchmarks/01_component_assessment' },
-            { text: '02. 系统集成', link: '/00_COURSE/09_evaluation_benchmarks/02_system_integration' },
-            { text: '03. 基准设计', link: '/00_COURSE/09_evaluation_benchmarks/03_benchmark_design' }
+            { text: '概览', link: '/00_COURSE/09_evaluation_methodologies/README' },
+            { text: '00. 评估框架', link: '/00_COURSE/09_evaluation_methodologies/00_evaluation_frameworks' },
+            { text: '01. 组件评估', link: '/00_COURSE/09_evaluation_methodologies/01_component_assessment' },
+            { text: '02. 系统集成', link: '/00_COURSE/09_evaluation_methodologies/02_system_integration' },
+            { text: '03. 基准设计', link: '/00_COURSE/09_evaluation_methodologies/03_benchmark_design' }
           ]
         },
         {
-          text: '10. 顶点项目',
+          text: '10. 编排顶点项目',
           collapsed: true,
           items: [
-            { text: '概览', link: '/00_COURSE/10_capstone/README' },
-            { text: '00. 项目概览', link: '/00_COURSE/10_capstone/00_capstone_overview' }
+            { text: '概览', link: '/00_COURSE/10_orchestration_capstone/README' },
+            { text: '00. 项目概览', link: '/00_COURSE/10_orchestration_capstone/00_capstone_overview' }
           ]
         }
       ],
