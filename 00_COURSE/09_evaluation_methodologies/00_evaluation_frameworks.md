@@ -508,13 +508,13 @@ class PerformanceEvaluator(EvaluationDimension):
             'contextual_relevance': self._assess_contextual_relevance,
             'coherence': self._assess_coherence
         }
-    
+
     def evaluate(self, system, test_data, context: EvaluationContext) -> EvaluationResult:
-        """Comprehensive performance evaluation"""
-        
+        """综合性能评估"""
+
         results = {}
         confidence_intervals = {}
-        
+
         for metric in self.metrics:
             if metric in self.metric_functions:
                 scores = self._calculate_metric_with_bootstrap(
@@ -523,12 +523,12 @@ class PerformanceEvaluator(EvaluationDimension):
                 results[metric] = np.mean(scores)
                 confidence_intervals[metric] = self._calculate_confidence_interval(scores)
             else:
-                print(f"Warning: Unknown metric {metric}")
-        
-        # Calculate overall performance score
+                print(f"警告：未知指标 {metric}")
+
+        # 计算整体性能分数
         overall_score = np.mean(list(results.values()))
         overall_ci = self._calculate_confidence_interval(list(results.values()))
-        
+
         return EvaluationResult(
             metric_name="performance",
             score=overall_score,
@@ -540,131 +540,131 @@ class PerformanceEvaluator(EvaluationDimension):
                 'test_size': len(test_data)
             }
         )
-    
+
     def _calculate_metric_with_bootstrap(self, system, test_data, metric, n_bootstrap=100):
-        """Calculate metric with bootstrap confidence estimation"""
+        """使用自助法计算指标和置信度估计"""
         scores = []
-        
+
         for _ in range(n_bootstrap):
-            # Bootstrap sample
+            # 自助法抽样
             sample_indices = np.random.choice(len(test_data), len(test_data), replace=True)
             sample_data = [test_data[i] for i in sample_indices]
-            
-            # Calculate metric on sample
+
+            # 计算样本上的指标
             score = self.metric_functions[metric](system, sample_data)
             scores.append(score)
-        
+
         return scores
-    
+
     def _calculate_accuracy(self, system, test_data):
-        """Calculate accuracy for classification tasks"""
+        """计算分类任务的准确率"""
         predictions = []
         ground_truth = []
-        
+
         for item in test_data:
             prediction = system.predict(item['input'])
             predictions.append(prediction)
             ground_truth.append(item['expected_output'])
-        
+
         return accuracy_score(ground_truth, predictions)
-    
+
     def _calculate_precision_recall(self, system, test_data):
-        """Calculate precision, recall, and F1 score"""
+        """计算精确率、召回率和F1分数"""
         predictions = []
         ground_truth = []
-        
+
         for item in test_data:
             prediction = system.predict(item['input'])
             predictions.append(prediction)
             ground_truth.append(item['expected_output'])
-        
+
         precision, recall, f1, _ = precision_recall_fscore_support(
             ground_truth, predictions, average='weighted'
         )
-        
+
         return {'precision': precision, 'recall': recall, 'f1_score': f1}
-    
+
     def _assess_response_quality(self, system, test_data):
-        """Assess quality of generated responses"""
+        """评估生成响应的质量"""
         quality_scores = []
-        
+
         for item in test_data:
             response = system.generate_response(item['input'])
-            
-            # Multi-dimensional quality assessment
+
+            # 多维度质量评估
             relevance = self._assess_relevance(response, item['input'])
             completeness = self._assess_completeness(response, item.get('requirements', []))
             clarity = self._assess_clarity(response)
             accuracy = self._assess_factual_accuracy(response, item.get('facts', []))
-            
+
             quality_score = np.mean([relevance, completeness, clarity, accuracy])
             quality_scores.append(quality_score)
-        
+
         return np.mean(quality_scores)
-    
+
     def _assess_contextual_relevance(self, system, test_data):
-        """Assess how well system uses provided context"""
+        """评估系统对所提供上下文的利用程度"""
         relevance_scores = []
-        
+
         for item in test_data:
             context = item.get('context', '')
             response = system.generate_response(item['input'], context=context)
-            
-            # Assess context utilization
+
+            # 评估上下文利用
             context_usage_score = self._measure_context_utilization(response, context)
             context_appropriateness = self._measure_context_appropriateness(response, context)
-            
+
             relevance_score = (context_usage_score + context_appropriateness) / 2
             relevance_scores.append(relevance_score)
-        
+
         return np.mean(relevance_scores)
-    
+
     def _assess_coherence(self, system, test_data):
-        """Assess logical coherence and consistency of responses"""
+        """评估响应的逻辑连贯性和一致性"""
         coherence_scores = []
-        
+
         for item in test_data:
             response = system.generate_response(item['input'])
-            
-            # Multi-aspect coherence assessment
+
+            # 多方面连贯性评估
             logical_consistency = self._assess_logical_consistency(response)
             narrative_flow = self._assess_narrative_flow(response)
             internal_consistency = self._assess_internal_consistency(response)
-            
+
             coherence_score = np.mean([logical_consistency, narrative_flow, internal_consistency])
             coherence_scores.append(coherence_score)
-        
+
         return np.mean(coherence_scores)
-    
+
     def _calculate_confidence_interval(self, scores, confidence=0.95):
-        """Calculate confidence interval for scores"""
+        """计算分数的置信区间"""
         if len(scores) < 2:
             return (0.0, 1.0)
-        
+
         alpha = 1 - confidence
         lower = np.percentile(scores, (alpha/2) * 100)
         upper = np.percentile(scores, (1 - alpha/2) * 100)
         return (lower, upper)
-    
+
     def get_requirements(self) -> Dict[str, Any]:
         return {
-            'test_data_format': 'List of dicts with input, expected_output, context fields',
-            'system_interface': 'Must have predict() and generate_response() methods',
+            'test_data_format': '包含input、expected_output、context字段的字典列表',
+            'system_interface': '必须具有predict()和generate_response()方法',
             'minimum_test_size': 50
         }
 
 class EfficiencyEvaluator(EvaluationDimension):
-    """Evaluate system efficiency and resource utilization"""
-    
+    """评估系统效率和资源利用"""
+
     def __init__(self):
         self.metrics = ['response_time', 'throughput', 'resource_usage', 'scalability']
-    
+
     def evaluate(self, system, test_data, context: EvaluationContext) -> EvaluationResult:
-        """Comprehensive efficiency evaluation"""
-        
+        """综合效率评估"""
+
         efficiency_results = {}
-        
-        # Measure response time distribution
+
+        # 测量响应时间分布
         response_times = self._measure_response_times(system, test_data)
         efficiency_results['response_time'] = {
             'mean': np.mean(response_times),
@@ -672,22 +672,22 @@ class EfficiencyEvaluator(EvaluationDimension):
             'p95': np.percentile(response_times, 95),
             'p99': np.percentile(response_times, 99)
         }
-        
-        # Measure throughput under load
+
+        # 测量负载下的吞吐量
         throughput_results = self._measure_throughput(system, test_data)
         efficiency_results['throughput'] = throughput_results
-        
-        # Assess resource utilization
+
+        # 评估资源利用
         resource_usage = self._measure_resource_usage(system, test_data)
         efficiency_results['resource_usage'] = resource_usage
-        
-        # Test scalability characteristics
+
+        # 测试可扩展性特性
         scalability_results = self._test_scalability(system, test_data)
         efficiency_results['scalability'] = scalability_results
-        
-        # Calculate overall efficiency score
+
+        # 计算整体效率分数
         efficiency_score = self._calculate_efficiency_score(efficiency_results)
-        
+
         return EvaluationResult(
             metric_name="efficiency",
             score=efficiency_score,
@@ -698,86 +698,86 @@ class EfficiencyEvaluator(EvaluationDimension):
                 'measurement_methodology': 'multi_metric_efficiency_assessment'
             }
         )
-    
+
     def _measure_response_times(self, system, test_data):
-        """Measure response time distribution"""
+        """测量响应时间分布"""
         import time
         response_times = []
-        
+
         for item in test_data:
             start_time = time.time()
             _ = system.generate_response(item['input'])
             end_time = time.time()
-            
+
             response_times.append(end_time - start_time)
-        
+
         return response_times
-    
+
     def _measure_throughput(self, system, test_data):
-        """Measure system throughput under different load conditions"""
+        """测量不同负载条件下的系统吞吐量"""
         import concurrent.futures
         import time
-        
+
         throughput_results = {}
-        
-        # Test different concurrency levels
+
+        # 测试不同的并发级别
         concurrency_levels = [1, 2, 4, 8, 16]
-        
+
         for concurrency in concurrency_levels:
             start_time = time.time()
-            
+
             with concurrent.futures.ThreadPoolExecutor(max_workers=concurrency) as executor:
-                # Submit subset of test data
+                # 提交测试数据子集
                 test_subset = test_data[:min(len(test_data), concurrency * 10)]
-                
+
                 futures = [
                     executor.submit(system.generate_response, item['input'])
                     for item in test_subset
                 ]
-                
-                # Wait for completion
+
+                # 等待完成
                 concurrent.futures.wait(futures)
-            
+
             end_time = time.time()
             total_time = end_time - start_time
-            
+
             throughput_results[f'concurrency_{concurrency}'] = {
                 'requests_per_second': len(test_subset) / total_time,
                 'total_requests': len(test_subset),
                 'total_time': total_time
             }
-        
+
         return throughput_results
-    
+
     def _measure_resource_usage(self, system, test_data):
-        """Measure CPU, memory, and other resource usage"""
+        """测量CPU、内存和其他资源使用"""
         import psutil
         import time
-        
-        # Baseline measurement
+
+        # 基线测量
         baseline_cpu = psutil.cpu_percent(interval=1)
         baseline_memory = psutil.virtual_memory().percent
-        
-        # Measurement during system operation
+
+        # 系统运行期间的测量
         start_time = time.time()
-        
+
         cpu_usage = []
         memory_usage = []
-        
-        for i, item in enumerate(test_data[:50]):  # Sample subset
+
+        for i, item in enumerate(test_data[:50]):  # 样本子集
             cpu_before = psutil.cpu_percent()
             memory_before = psutil.virtual_memory().percent
-            
+
             _ = system.generate_response(item['input'])
-            
+
             cpu_after = psutil.cpu_percent()
             memory_after = psutil.virtual_memory().percent
-            
+
             cpu_usage.append(cpu_after - cpu_before)
             memory_usage.append(memory_after - memory_before)
-        
+
         end_time = time.time()
-        
+
         return {
             'cpu_usage': {
                 'baseline': baseline_cpu,
@@ -791,104 +791,104 @@ class EfficiencyEvaluator(EvaluationDimension):
             },
             'measurement_duration': end_time - start_time
         }
-    
+
     def _test_scalability(self, system, test_data):
-        """Test how performance scales with input size and complexity"""
-        
+        """测试性能如何随输入大小和复杂性扩展"""
+
         scalability_results = {}
-        
-        # Test different input sizes
+
+        # 测试不同的输入大小
         input_sizes = [10, 50, 100, 200, 500]
-        
+
         for size in input_sizes:
             if size <= len(test_data):
                 subset = test_data[:size]
-                
+
                 import time
                 start_time = time.time()
-                
+
                 for item in subset:
                     _ = system.generate_response(item['input'])
-                
+
                 end_time = time.time()
-                
+
                 scalability_results[f'input_size_{size}'] = {
                     'total_time': end_time - start_time,
                     'time_per_request': (end_time - start_time) / size,
                     'requests_per_second': size / (end_time - start_time)
                 }
-        
+
         return scalability_results
-    
+
     def _calculate_efficiency_score(self, efficiency_results):
-        """Calculate overall efficiency score from component metrics"""
-        
-        # Normalize different metrics to 0-1 scale
+        """从组件指标计算整体效率分数"""
+
+        # 将不同指标标准化为0-1范围
         response_time_score = 1 / (1 + efficiency_results['response_time']['mean'])
-        
-        # Higher throughput is better
+
+        # 更高的吞吐量更好
         max_throughput = max([
-            data['requests_per_second'] 
+            data['requests_per_second']
             for data in efficiency_results['throughput'].values()
         ])
-        throughput_score = min(1.0, max_throughput / 10.0)  # Normalize to reasonable range
-        
-        # Lower resource usage is better
+        throughput_score = min(1.0, max_throughput / 10.0)  # 标准化到合理范围
+
+        # 更低的资源使用更好
         cpu_impact = efficiency_results['resource_usage']['cpu_usage']['mean_increase']
-        resource_score = 1 / (1 + cpu_impact / 10)  # Normalize CPU impact
-        
-        # Better scalability is higher score
+        resource_score = 1 / (1 + cpu_impact / 10)  # 标准化CPU影响
+
+        # 更好的可扩展性分数更高
         scalability_times = [
-            data['time_per_request'] 
+            data['time_per_request']
             for data in efficiency_results['scalability'].values()
         ]
         scalability_variance = np.var(scalability_times)
         scalability_score = 1 / (1 + scalability_variance)
-        
-        # Weighted combination
+
+        # 加权组合
         efficiency_score = (
             response_time_score * 0.3 +
             throughput_score * 0.3 +
             resource_score * 0.2 +
             scalability_score * 0.2
         )
-        
+
         return efficiency_score
-    
+
     def get_requirements(self) -> Dict[str, Any]:
         return {
-            'system_interface': 'Must support concurrent requests',
-            'measurement_environment': 'Should run in controlled environment',
+            'system_interface': '必须支持并发请求',
+            'measurement_environment': '应在受控环境中运行',
             'minimum_test_size': 100
         }
 
 class EmergenceDetector:
-    """Detect and analyze emergent behaviors in context engineering systems"""
-    
+    """检测和分析上下文工程系统中的涌现行为"""
+
     def __init__(self):
         self.baseline_behaviors = {}
         self.emergence_patterns = []
-        self.detection_sensitivity = 0.1  # Threshold for significant emergence
-    
+        self.detection_sensitivity = 0.1  # 显著涌现的阈值
+
     def detect_emergence(self, system, test_data, baseline_predictions=None):
-        """Comprehensive emergence detection and analysis"""
-        
-        # Establish baseline expectations
+        """综合涌现检测和分析"""
+
+        # 建立基线预期
         if baseline_predictions is None:
             baseline_predictions = self._generate_baseline_predictions(system, test_data)
-        
-        # Observe actual system behavior
+
+        # 观察实际系统行为
         actual_behaviors = self._observe_system_behaviors(system, test_data)
-        
-        # Compare actual vs predicted behaviors
+
+        # 比较实际与预测的行为
         emergence_analysis = self._analyze_emergence(actual_behaviors, baseline_predictions)
-        
-        # Classify types of emergence
+
+        # 分类涌现的类型
         emergence_classification = self._classify_emergence(emergence_analysis)
-        
-        # Assess emergence significance
+
+        # 评估涌现的显著性
         significance_assessment = self._assess_emergence_significance(emergence_classification)
-        
+
         return {
             'emergence_detected': len(emergence_classification) > 0,
             'emergence_types': emergence_classification,
@@ -896,64 +896,64 @@ class EmergenceDetector:
             'detailed_analysis': emergence_analysis,
             'recommendations': self._generate_emergence_recommendations(significance_assessment)
         }
-    
+
     def _generate_baseline_predictions(self, system, test_data):
-        """Generate predictions for expected system behavior"""
-        
+        """生成预期系统行为的预测"""
+
         predictions = {}
-        
-        # Predict performance based on component capabilities
+
+        # 基于组件能力预测性能
         predictions['performance'] = self._predict_component_performance(system, test_data)
-        
-        # Predict interaction patterns
+
+        # 预测交互模式
         predictions['interaction_patterns'] = self._predict_interaction_patterns(system)
-        
-        # Predict resource usage
+
+        # 预测资源使用
         predictions['resource_patterns'] = self._predict_resource_patterns(system, test_data)
-        
-        # Predict response characteristics
+
+        # 预测响应特征
         predictions['response_characteristics'] = self._predict_response_characteristics(system, test_data)
-        
+
         return predictions
-    
+
     def _observe_system_behaviors(self, system, test_data):
-        """Systematically observe actual system behaviors"""
-        
+        """系统地观察实际系统行为"""
+
         behaviors = {}
-        
-        # Monitor performance patterns
+
+        # 监控性能模式
         behaviors['performance'] = self._monitor_performance_patterns(system, test_data)
-        
-        # Monitor interaction dynamics
+
+        # 监控交互动态
         behaviors['interaction_patterns'] = self._monitor_interaction_patterns(system, test_data)
-        
-        # Monitor resource utilization
+
+        # 监控资源利用
         behaviors['resource_patterns'] = self._monitor_resource_patterns(system, test_data)
-        
-        # Monitor response characteristics
+
+        # 监控响应特征
         behaviors['response_characteristics'] = self._monitor_response_characteristics(system, test_data)
-        
-        # Look for novel behaviors
+
+        # 寻找新颖的行为
         behaviors['novel_patterns'] = self._detect_novel_patterns(system, test_data)
-        
+
         return behaviors
-    
+
     def _analyze_emergence(self, actual_behaviors, baseline_predictions):
-        """Compare actual vs predicted behaviors to identify emergence"""
-        
+        """比较实际与预测的行为以识别涌现"""
+
         emergence_analysis = {}
-        
+
         for behavior_category in actual_behaviors.keys():
             if behavior_category in baseline_predictions:
                 actual = actual_behaviors[behavior_category]
                 predicted = baseline_predictions[behavior_category]
-                
-                # Calculate deviation from predictions
+
+                # 计算与预测的偏差
                 deviation = self._calculate_behavioral_deviation(actual, predicted)
-                
-                # Assess significance of deviation
+
+                # 评估偏差的显著性
                 significance = self._assess_deviation_significance(deviation)
-                
+
                 emergence_analysis[behavior_category] = {
                     'actual': actual,
                     'predicted': predicted,
@@ -961,19 +961,19 @@ class EmergenceDetector:
                     'significance': significance,
                     'emergence_detected': significance > self.detection_sensitivity
                 }
-        
+
         return emergence_analysis
-    
+
     def _classify_emergence(self, emergence_analysis):
-        """Classify detected emergence into categories"""
-        
+        """将检测到的涌现分类到不同的类别"""
+
         classifications = []
-        
+
         for category, analysis in emergence_analysis.items():
             if analysis['emergence_detected']:
                 emergence_type = self._determine_emergence_type(analysis)
                 emergence_strength = self._assess_emergence_strength(analysis)
-                
+
                 classifications.append({
                     'category': category,
                     'type': emergence_type,
@@ -981,20 +981,20 @@ class EmergenceDetector:
                     'description': self._describe_emergence(analysis),
                     'examples': self._extract_emergence_examples(analysis)
                 })
-        
+
         return classifications
-    
+
     def _assess_emergence_significance(self, emergence_classifications):
-        """Assess the overall significance of detected emergence"""
-        
+        """评估检测到的涌现的整体显著性"""
+
         if not emergence_classifications:
             return {
                 'overall_significance': 'none',
                 'impact_assessment': 'no_significant_emergence_detected',
                 'implications': []
             }
-        
-        # Calculate emergence metrics
+
+        # 计算涌现指标
         total_emergence_strength = sum(e['strength'] for e in emergence_classifications)
         emergence_diversity = len(set(e['type'] for e in emergence_classifications))
         
