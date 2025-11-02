@@ -163,30 +163,30 @@ Consistency(C) = 1 - Contradiction_Count(C) / Total_Statements(C)
 Efficiency(C) = Information_Value(C) / Token_Count(C)
 ```
 
-**Optimization Questions**:
-- Where can we eliminate redundancy without losing information?
-- How do we prioritize high-value information within constraints?
-- What compression techniques maintain quality while reducing tokens?
+**优化问题**:
+- 在哪里可以消除冗余而不丢失信息？
+- 如何在约束内优先考虑高价值信息？
+- 什么压缩技术可以在减少token的同时保持质量？
 
-## Constraint Definition Framework
+## 约束定义框架
 
-### Hard Constraints (Must be satisfied)
+### 硬约束（必须满足）
 ```
 Token_Count(C) ≤ L_max
 Quality_Threshold(C) ≥ Q_min
 Safety_Requirements(C) = True
 ```
 
-### Soft Constraints (Preferences with flexibility)
+### 软约束（具有灵活性的偏好）
 ```
 Preferred_Token_Usage ≈ 0.8 × L_max
 Preferred_Response_Time ≤ T_target
 Preferred_Complexity_Level ∈ [Simple, Moderate, Advanced]
 ```
 
-## Weight Determination Strategy
+## 权重确定策略
 
-### Context-Adaptive Weighting
+### 上下文自适应加权
 ```
 IF query_type == "analytical":
     w₁ = 0.5, w₂ = 0.3, w₃ = 0.15, w₄ = 0.05
@@ -196,133 +196,133 @@ ELIF query_type == "factual":
     w₁ = 0.4, w₂ = 0.4, w₃ = 0.15, w₄ = 0.05
 ```
 
-### User-Preference Adaptation
+### 用户偏好适配
 ```
 weights = base_weights + α × user_preference_vector + β × performance_feedback
 ```
 
-## Optimization Strategy Selection
+## 优化策略选择
 
-### Simple Optimization (Single objective, few constraints)
-**Method**: Grid search or simple hill climbing
-**When to Use**: Clear single objective, limited complexity
-**Example**: Optimizing token allocation for maximum relevance
+### 简单优化（单一目标，少量约束）
+**方法**: 网格搜索或简单爬山算法
+**何时使用**: 清晰的单一目标，有限的复杂性
+**示例**: 优化token分配以获得最大相关性
 
-### Multi-Objective Optimization (Multiple competing objectives)
-**Method**: Pareto optimization or weighted sum approach
-**When to Use**: Trade-offs between quality dimensions
-**Example**: Balancing relevance vs. completeness vs. efficiency
+### 多目标优化（多个竞争目标）
+**方法**: 帕累托优化或加权和方法
+**何时使用**: 质量维度之间的权衡
+**示例**: 平衡相关性 vs. 完整性 vs. 效率
 
-### Constrained Optimization (Complex constraints)
-**Method**: Lagrangian optimization or penalty methods
-**When to Use**: Multiple hard constraints must be satisfied
-**Example**: Meeting token limits while achieving quality thresholds
+### 约束优化（复杂约束）
+**方法**: 拉格朗日优化或惩罚方法
+**何时使用**: 必须满足多个硬约束
+**示例**: 在满足token限制的同时达到质量阈值
 
-### Dynamic Optimization (Changing conditions)
-**Method**: Adaptive algorithms with real-time adjustment
-**When to Use**: Context requirements change during optimization
-**Example**: Optimizing based on user feedback during interaction
+### 动态优化（变化的条件）
+**方法**: 具有实时调整的自适应算法
+**何时使用**: 上下文需求在优化过程中变化
+**示例**: 基于交互期间的用户反馈进行优化
 ```
 </pre>
 
-**Ground-up Explanation**: This template guides you through designing optimization problems like an engineer designing a bridge - you need to clearly define what success means, what constraints you must respect, and what trade-offs you're willing to make.
+**从零开始的解释**：这个模板引导您设计优化问题，就像工程师设计桥梁一样——您需要清楚地定义成功的含义、必须遵守的约束以及愿意做出的权衡。
 
-### Multi-Objective Optimization Strategy Template
+### 多目标优化策略模板
 
 ```xml
 <multi_objective_optimization_template>
-  <scenario>Context optimization with competing objectives</scenario>
-  
+  <scenario>具有竞争目标的上下文优化</scenario>
+
   <objective_definition>
     <primary_objectives>
       <objective name="relevance" weight="variable" priority="high">
-        <description>Maximize semantic relevance to user query</description>
-        <measurement>Cosine similarity between context embeddings and query embedding</measurement>
+        <description>最大化与用户查询的语义相关性</description>
+        <measurement>上下文嵌入与查询嵌入之间的余弦相似度</measurement>
         <optimization_direction>maximize</optimization_direction>
       </objective>
-      
+
       <objective name="completeness" weight="variable" priority="high">
-        <description>Ensure comprehensive information coverage</description>
-        <measurement>Percentage of required information categories covered</measurement>
+        <description>确保全面的信息覆盖</description>
+        <measurement>所需信息类别的覆盖百分比</measurement>
         <optimization_direction>maximize</optimization_direction>
       </objective>
-      
+
       <objective name="efficiency" weight="variable" priority="medium">
-        <description>Optimize information density per token</description>
-        <measurement>Information value divided by token count</measurement>
+        <description>优化每个token的信息密度</description>
+        <measurement>信息价值除以token计数</measurement>
         <optimization_direction>maximize</optimization_direction>
       </objective>
     </primary_objectives>
-    
+
     <secondary_objectives>
       <objective name="diversity" weight="0.1" priority="low">
-        <description>Include diverse perspectives and approaches</description>
-        <measurement>Semantic diversity score across context components</measurement>
+        <description>包含多样化的观点和方法</description>
+        <measurement>跨上下文组件的语义多样性得分</measurement>
         <optimization_direction>maximize</optimization_direction>
       </objective>
-      
+
       <objective name="freshness" weight="0.1" priority="low">
-        <description>Prioritize recent and current information</description>
-        <measurement>Time-weighted average of information recency</measurement>
+        <description>优先考虑最近和当前的信息</description>
+        <measurement>信息新鲜度的时间加权平均值</measurement>
         <optimization_direction>maximize</optimization_direction>
       </objective>
     </secondary_objectives>
   </objective_definition>
-  
+
   <optimization_approaches>
     <pareto_optimization>
-      <description>Find solutions that cannot be improved in one objective without degrading another</description>
-      <when_to_use>When no clear priority ranking exists between objectives</when_to_use>
-      <implementation>Generate Pareto frontier and let user choose preferred trade-off</implementation>
+      <description>找到无法在不降低另一个目标的情况下改进一个目标的解决方案</description>
+      <when_to_use>当目标之间不存在明确的优先级排序时</when_to_use>
+      <implementation>生成帕累托前沿并让用户选择首选的权衡</implementation>
     </pareto_optimization>
-    
+
     <weighted_sum_optimization>
-      <description>Combine objectives using weighted linear combination</description>
-      <when_to_use>When relative importance of objectives can be quantified</when_to_use>
-      <implementation>Optimize single composite objective: Σ wᵢ × objectiveᵢ</implementation>
+      <description>使用加权线性组合结合目标</description>
+      <when_to_use>当可以量化目标的相对重要性时</when_to_use>
+      <implementation>优化单一复合目标: Σ wᵢ × objectiveᵢ</implementation>
     </weighted_sum_optimization>
-    
+
     <lexicographic_optimization>
-      <description>Optimize objectives in strict priority order</description>
-      <when_to_use>When clear hierarchy exists between objectives</when_to_use>
-      <implementation>Optimize highest priority first, then next priority within acceptable range</implementation>
+      <description>按严格优先级顺序优化目标</description>
+      <when_to_use>当目标之间存在明确的层次结构时</when_to_use>
+      <implementation>首先优化最高优先级，然后在可接受范围内优化下一个优先级</implementation>
     </lexicographic_optimization>
-    
+
     <epsilon_constraint>
-      <description>Optimize primary objective while constraining others to acceptable levels</description>
-      <when_to_use>When one objective is clearly most important</when_to_use>
-      <implementation>Maximize primary objective subject to secondary objectives ≥ thresholds</implementation>
+      <description>在将其他目标约束到可接受水平的同时优化主要目标</description>
+      <when_to_use>当一个目标明显最重要时</when_to_use>
+      <implementation>最大化主要目标，受次要目标 ≥ 阈值的约束</implementation>
     </epsilon_constraint>
   </optimization_approaches>
-  
+
   <trade_off_analysis_framework>
     <trade_off type="relevance_vs_completeness">
-      <scenario>High relevance might mean narrow focus, reducing completeness</scenario>
-      <resolution_strategy>Use hierarchical information organization: core relevance + supplementary completeness</resolution_strategy>
+      <scenario>高相关性可能意味着狭窄的焦点，降低完整性</scenario>
+      <resolution_strategy>使用层次化信息组织：核心相关性 + 补充完整性</resolution_strategy>
     </trade_off>
-    
+
     <trade_off type="completeness_vs_efficiency">
-      <scenario>Complete information coverage might exceed token budgets</scenario>
-      <resolution_strategy>Use intelligent summarization and priority-based selection</resolution_strategy>
+      <scenario>完整的信息覆盖可能超过token预算</scenario>
+      <resolution_strategy>使用智能摘要和基于优先级的选择</resolution_strategy>
     </trade_off>
-    
+
     <trade_off type="consistency_vs_diversity">
-      <scenario>Diverse perspectives might introduce apparent contradictions</scenario>
-      <resolution_strategy>Clearly label perspective sources and provide synthesis framework</resolution_strategy>
+      <scenario>多样化的观点可能引入明显的矛盾</scenario>
+      <resolution_strategy>清楚地标注观点来源并提供综合框架</resolution_strategy>
     </trade_off>
   </trade_off_analysis_framework>
-  
+
   <dynamic_weight_adjustment>
     <user_feedback_integration>
-      <positive_feedback>Increase weights for objectives that contributed to successful outcomes</positive_feedback>
-      <negative_feedback>Adjust weights to address areas where user expressed dissatisfaction</negative_feedback>
-      <implicit_feedback>Monitor user behavior patterns to infer objective preferences</implicit_feedback>
+      <positive_feedback>增加对成功结果有贡献的目标的权重</positive_feedback>
+      <negative_feedback>调整权重以解决用户表达不满的领域</negative_feedback>
+      <implicit_feedback>监控用户行为模式以推断目标偏好</implicit_feedback>
     </user_feedback_integration>
-    
+
     <context_adaptation>
-      <query_complexity>Increase completeness weight for complex queries</query_complexity>
-      <time_pressure>Increase efficiency weight when user indicates urgency</time_pressure>
-      <domain_specificity>Increase relevance weight for highly specialized domains</domain_specificity>
+      <query_complexity>对于复杂查询增加完整性权重</query_complexity>
+      <time_pressure>当用户表示紧急时增加效率权重</time_pressure>
+      <domain_specificity>对于高度专业化的领域增加相关性权重</domain_specificity>
     </context_adaptation>
   </dynamic_weight_adjustment>
 </multi_objective_optimization_template>
