@@ -257,6 +257,22 @@ export default withMermaid(defineConfig({
             }
           ]
         }
+      ],
+
+      '/10_guides/': [
+        {
+          text: '📖 快速指南',
+          items: [
+            { text: '指南概览', link: '/10_guides/README' },
+            { text: '01. 最小提示', link: '/10_guides/01_min_prompt' },
+            { text: '02. 扩展上下文', link: '/10_guides/02_expand_context' },
+            { text: '03. 控制循环', link: '/10_guides/03_control_loops' },
+            { text: '04. RAG 食谱', link: '/10_guides/04_rag_recipes' },
+            { text: '05. 提示程序', link: '/10_guides/05_prompt_programs' },
+            { text: '06. 架构设计', link: '/10_guides/06_schema_design' },
+            { text: '07. 递归模式', link: '/10_guides/07_recursive_patterns' }
+          ]
+        }
       ]
     },
 
