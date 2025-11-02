@@ -117,14 +117,14 @@ export default withMermaid(defineConfig({
           ]
         },
         {
-          text: '06. 工具集成',
+          text: '06. 工具集成推理',
           collapsed: true,
           items: [
-            { text: '概览', link: '/00_COURSE/06_tool_integration/README' },
-            { text: '00. 函数调用', link: '/00_COURSE/06_tool_integration/00_function_calling' },
-            { text: '01. 工具集成', link: '/00_COURSE/06_tool_integration/01_tool_integration' },
-            { text: '02. 智能体环境', link: '/00_COURSE/06_tool_integration/02_agent_environment' },
-            { text: '03. 推理框架', link: '/00_COURSE/06_tool_integration/03_reasoning_frameworks' }
+            { text: '概览', link: '/00_COURSE/06_tool_integrated_reasoning/README' },
+            { text: '00. 函数调用', link: '/00_COURSE/06_tool_integrated_reasoning/00_function_calling' },
+            { text: '01. 工具集成', link: '/00_COURSE/06_tool_integrated_reasoning/01_tool_integration' },
+            { text: '02. 智能体环境', link: '/00_COURSE/06_tool_integrated_reasoning/02_agent_environment' },
+            { text: '03. 推理框架', link: '/00_COURSE/06_tool_integrated_reasoning/03_reasoning_frameworks' }
           ]
         },
         {
