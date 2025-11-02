@@ -328,142 +328,142 @@ weights = base_weights + α × user_preference_vector + β × performance_feedba
 </multi_objective_optimization_template>
 ```
 
-**Ground-up Explanation**: This XML template handles situations where you want multiple things that sometimes conflict - like wanting both comprehensive coverage AND brevity. It provides systematic approaches for managing these trade-offs, like a project manager balancing quality, time, and budget constraints.
+**从零开始的解释**：这个XML模板处理您想要多个有时会冲突的东西的情况——比如既想要全面覆盖又想要简洁。它提供了管理这些权衡的系统化方法，就像项目经理平衡质量、时间和预算约束一样。
 
-### Constraint Handling Strategy Template
+### 约束处理策略模板
 
 ```yaml
-# Constraint Handling Strategy Template
+# 约束处理策略模板
 constraint_optimization_framework:
-  
+
   constraint_types:
     hard_constraints:
-      description: "Constraints that absolutely must be satisfied"
-      violation_consequence: "Solution is invalid/unusable"
+      description: "绝对必须满足的约束"
+      violation_consequence: "解决方案无效/不可用"
       examples:
-        - token_budget: "Total tokens ≤ maximum context window"
-        - safety_requirements: "No harmful or inappropriate content"
-        - format_requirements: "Output must match required structure"
-        - computational_limits: "Processing time ≤ acceptable threshold"
-      
+        - token_budget: "总token数 ≤ 最大上下文窗口"
+        - safety_requirements: "没有有害或不当内容"
+        - format_requirements: "输出必须匹配所需结构"
+        - computational_limits: "处理时间 ≤ 可接受阈值"
+
     soft_constraints:
-      description: "Preferences that should be satisfied when possible"
-      violation_consequence: "Solution quality degrades but remains usable"
+      description: "应尽可能满足的偏好"
+      violation_consequence: "解决方案质量下降但仍然可用"
       examples:
-        - preferred_length: "Target 80% of maximum token budget"
-        - response_time: "Prefer faster assembly when possible"
-        - writing_style: "Match user's preferred communication style"
-        - complexity_level: "Adjust to user's expertise level"
-    
+        - preferred_length: "目标为最大token预算的80%"
+        - response_time: "尽可能更快地组装"
+        - writing_style: "匹配用户首选的沟通风格"
+        - complexity_level: "调整到用户的专业水平"
+
     adaptive_constraints:
-      description: "Constraints that change based on context and performance"
-      violation_consequence: "Dynamic adjustment based on conditions"
+      description: "基于上下文和性能变化的约束"
+      violation_consequence: "基于条件的动态调整"
       examples:
-        - quality_threshold: "Minimum quality adjusts based on query complexity"
-        - efficiency_requirement: "Stricter efficiency under resource pressure"
-        - completeness_standard: "Higher completeness for critical decisions"
-  
+        - quality_threshold: "最低质量根据查询复杂性调整"
+        - efficiency_requirement: "在资源压力下更严格的效率要求"
+        - completeness_standard: "关键决策需要更高的完整性"
+
   constraint_satisfaction_strategies:
     penalty_method:
-      description: "Add penalty terms to objective function for constraint violations"
-      mathematical_form: "Minimize f(x) + Σ penalty_weights × violation_amounts"
-      when_to_use: "When constraints can be violated temporarily during optimization"
-      advantages: ["Simple to implement", "Handles soft constraints naturally"]
-      disadvantages: ["May not guarantee hard constraint satisfaction"]
-      
+      description: "为约束违反向目标函数添加惩罚项"
+      mathematical_form: "最小化 f(x) + Σ penalty_weights × violation_amounts"
+      when_to_use: "当约束可以在优化期间暂时违反时"
+      advantages: ["易于实现", "自然处理软约束"]
+      disadvantages: ["可能不能保证硬约束满足"]
+
     barrier_method:
-      description: "Create barriers that prevent violation of constraints"
-      mathematical_form: "Minimize f(x) + Σ barrier_functions(constraints)"
-      when_to_use: "When hard constraints must never be violated"
-      advantages: ["Guarantees constraint satisfaction", "Efficient for simple constraints"]
-      disadvantages: ["Can be unstable near constraint boundaries"]
-      
+      description: "创建防止违反约束的障碍"
+      mathematical_form: "最小化 f(x) + Σ barrier_functions(constraints)"
+      when_to_use: "当硬约束绝对不能被违反时"
+      advantages: ["保证约束满足", "对简单约束高效"]
+      disadvantages: ["在约束边界附近可能不稳定"]
+
     lagrangian_method:
-      description: "Use Lagrange multipliers to incorporate constraints"
-      mathematical_form: "Optimize L(x,λ) = f(x) + Σ λᵢ × constraint_violations"
-      when_to_use: "When constraints are differentiable and well-behaved"
-      advantages: ["Theoretically elegant", "Provides sensitivity analysis"]
-      disadvantages: ["Requires mathematical sophistication", "May have convergence issues"]
-      
+      description: "使用拉格朗日乘数来整合约束"
+      mathematical_form: "优化 L(x,λ) = f(x) + Σ λᵢ × constraint_violations"
+      when_to_use: "当约束可微且行为良好时"
+      advantages: ["理论上优雅", "提供灵敏度分析"]
+      disadvantages: ["需要数学复杂性", "可能有收敛问题"]
+
     projection_method:
-      description: "Project solutions back into feasible region after each step"
+      description: "在每步之后将解决方案投影回可行域"
       mathematical_form: "x_new = project_to_feasible_region(x_optimized)"
-      when_to_use: "When feasible region has simple geometric structure"
-      advantages: ["Always maintains feasibility", "Simple conceptually"]
-      disadvantages: ["Projection may be computationally expensive"]
+      when_to_use: "当可行域具有简单的几何结构时"
+      advantages: ["始终保持可行性", "概念上简单"]
+      disadvantages: ["投影可能计算成本高"]
   
   constraint_prioritization:
     critical_constraints:
       priority: 1
-      handling: "Must be satisfied exactly - optimization fails if violated"
-      examples: ["Safety requirements", "Legal compliance", "Technical feasibility"]
-      
+      handling: "必须精确满足 - 违反则优化失败"
+      examples: ["安全要求", "法律合规", "技术可行性"]
+
     important_constraints:
       priority: 2
-      handling: "Strong preference for satisfaction - significant penalty if violated"
-      examples: ["Token budget limits", "Quality thresholds", "Performance requirements"]
-      
+      handling: "强烈偏好满足 - 违反则有重大惩罚"
+      examples: ["Token预算限制", "质量阈值", "性能要求"]
+
     preferred_constraints:
       priority: 3
-      handling: "Mild preference for satisfaction - small penalty if violated"
-      examples: ["Style preferences", "Efficiency targets", "Convenience factors"]
-  
+      handling: "轻度偏好满足 - 违反则有小惩罚"
+      examples: ["风格偏好", "效率目标", "便利因素"]
+
   dynamic_constraint_adaptation:
     performance_based_adjustment:
-      description: "Adjust constraints based on observed performance"
-      mechanism: "Tighten constraints when performance is good, relax when struggling"
-      example: "If consistently exceeding quality targets, increase efficiency requirements"
-      
+      description: "基于观察到的性能调整约束"
+      mechanism: "性能好时收紧约束，困难时放松"
+      example: "如果持续超过质量目标，则提高效率要求"
+
     context_based_adjustment:
-      description: "Modify constraints based on current context characteristics"
-      mechanism: "Different constraint sets for different types of queries/users"
-      example: "Stricter completeness requirements for medical/legal queries"
-      
+      description: "基于当前上下文特征修改约束"
+      mechanism: "不同类型的查询/用户使用不同的约束集"
+      example: "医疗/法律查询需要更严格的完整性要求"
+
     user_feedback_adjustment:
-      description: "Adapt constraints based on user satisfaction and feedback"
-      mechanism: "Learn user preferences and adjust constraint priorities accordingly"
-      example: "User values speed over completeness → relax completeness constraints"
-  
+      description: "基于用户满意度和反馈调整约束"
+      mechanism: "学习用户偏好并相应调整约束优先级"
+      example: "用户重视速度而非完整性 → 放松完整性约束"
+
   constraint_conflict_resolution:
     conflict_detection:
-      method: "Analyze constraint combinations for mathematical inconsistencies"
-      indicators: ["No feasible solution exists", "Contradictory requirements", "Impossible combinations"]
-      
+      method: "分析约束组合中的数学不一致性"
+      indicators: ["不存在可行解", "矛盾要求", "不可能的组合"]
+
     resolution_strategies:
       constraint_relaxation:
-        description: "Temporarily relax lower-priority constraints"
-        process: "Identify minimum relaxation needed to restore feasibility"
-        
+        description: "暂时放松较低优先级的约束"
+        process: "识别恢复可行性所需的最小放松"
+
       constraint_reformulation:
-        description: "Rewrite constraints in compatible forms"
-        process: "Transform constraints to eliminate contradictions while preserving intent"
-        
+        description: "以兼容的形式重写约束"
+        process: "转换约束以消除矛盾同时保留意图"
+
       priority_override:
-        description: "Allow higher-priority constraints to override lower-priority ones"
-        process: "Establish clear hierarchy and resolution rules"
-        
+        description: "允许高优先级约束覆盖低优先级约束"
+        process: "建立清晰的层次结构和解决规则"
+
       user_consultation:
-        description: "Request user guidance when automatic resolution is unclear"
-        process: "Present trade-offs and allow user to choose resolution approach"
-  
+        description: "当自动解决不清楚时请求用户指导"
+        process: "呈现权衡并允许用户选择解决方法"
+
   implementation_guidelines:
     constraint_validation:
-      - "Validate all constraints before beginning optimization"
-      - "Check for mathematical consistency and feasibility"
-      - "Ensure constraint functions are well-defined and computable"
-      
+      - "在开始优化之前验证所有约束"
+      - "检查数学一致性和可行性"
+      - "确保约束函数定义良好且可计算"
+
     monitoring_and_adjustment:
-      - "Continuously monitor constraint satisfaction during optimization"
-      - "Log constraint violations and their impacts on solution quality"
-      - "Adjust constraint handling strategies based on empirical performance"
-      
+      - "在优化过程中持续监控约束满足情况"
+      - "记录约束违反及其对解决方案质量的影响"
+      - "基于经验性能调整约束处理策略"
+
     user_communication:
-      - "Clearly communicate which constraints are hard vs. soft"
-      - "Explain trade-offs when constraints conflict"
-      - "Provide transparency about constraint handling decisions"
+      - "清楚地传达哪些约束是硬的与软的"
+      - "当约束冲突时解释权衡"
+      - "提供约束处理决策的透明度"
 ```
 
-**Ground-up Explanation**: This YAML template provides a systematic approach to handling constraints in optimization, like having clear rules for managing competing requirements in a complex project. It helps you decide what's negotiable versus non-negotiable, and how to handle conflicts systematically.
+**从零开始的解释**：这个YAML模板为优化中的约束处理提供了系统化方法，就像在复杂项目中管理竞争需求有清晰的规则一样。它帮助您决定什么是可协商的与不可协商的，以及如何系统地处理冲突。
 
 ---
 
