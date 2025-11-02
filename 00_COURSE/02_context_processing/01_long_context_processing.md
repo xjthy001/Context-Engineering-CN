@@ -978,6 +978,206 @@ class EpisodicMemory(MemoryLevel):
             'avg_importance': np.mean([e.importance_score for e in self.episodes])
         }
 
+import time
+
+class HierarchicalMemorySystem:
+    """协调所有级别的集成分层内存系统"""
+
+    def __init__(self, embedding_dim: int = 512):
+        self.embedding_dim = embedding_dim
+
+        # 初始化内存级别
+        self.working_memory = WorkingMemory()
+        self.short_term_memory = ShortTermMemory()
+        self.long_term_memory = LongTermMemory()
+        self.episodic_memory = EpisodicMemory()
+
+        # 整合和管理
+        self.consolidation_threshold = 0.8
+        self.last_consolidation = time.time()
+        self.consolidation_interval = 300  # 5分钟
+
+    def process_input(self, content: str, importance_score: float = 0.5) -> str:
+        """通过内存层次结构处理新输入"""
+        # 创建内存段
+        segment = self._create_memory_segment(content, importance_score)
+
+        # 存储在工作内存中
+        self.working_memory.store(segment)
+
+        # 检查是否需要整合
+        if self._should_consolidate():
+            self._perform_consolidation()
+
+        return f"已处理并存储: {len(content)} 个字符"
+
+    def _create_memory_segment(self, content: str, importance_score: float) -> MemorySegment:
+        """创建带有嵌入和元数据的内存段"""
+        # 简化的嵌入生成(实践中使用复杂模型)
+        embedding = np.random.rand(self.embedding_dim)  # 占位符
+
+        # 提取检索键(简化)
+        retrieval_keys = self._extract_retrieval_keys(content)
+
+        return MemorySegment(
+            content=content,
+            embedding=embedding,
+            importance_score=importance_score,
+            recency_score=1.0,
+            access_frequency=1,
+            creation_time=time.time(),
+            last_access_time=time.time(),
+            segment_type='new',
+            retrieval_keys=retrieval_keys
+        )
+
+    def _extract_retrieval_keys(self, content: str) -> List[str]:
+        """提取用于检索索引的关键术语"""
+        # 简化的关键词提取
+        words = content.lower().split()
+        # 过滤常见词并保留有意义的术语
+        stop_words = {'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with'}
+        keys = [word for word in words if len(word) > 3 and word not in stop_words]
+        return keys[:10]  # 保留前10个键
+
+    def _should_consolidate(self) -> bool:
+        """确定是否应进行内存整合"""
+        # 检查容量利用率
+        wm_capacity = self.working_memory.get_capacity_info()
+
+        if (wm_capacity['segment_utilization'] > self.consolidation_threshold or
+            wm_capacity['token_utilization'] > self.consolidation_threshold or
+            time.time() - self.last_consolidation > self.consolidation_interval):
+            return True
+
+        return False
+
+    def _perform_consolidation(self):
+        """跨所有级别执行内存整合"""
+        print("开始内存整合...")
+
+        # 工作内存 → 短期内存
+        wm_candidates = self.working_memory.consolidate()
+        for candidate in wm_candidates:
+            self.short_term_memory.store(candidate)
+
+        # 短期内存 → 长期内存
+        stm_candidates = self.short_term_memory.consolidate()
+        for candidate in stm_candidates:
+            if candidate.importance_score > 0.6:
+                self.long_term_memory.store(candidate)
+
+            # 在情景内存中存储重要事件
+            if (candidate.importance_score > 0.8 or
+                'important' in candidate.content.lower()):
+                self.episodic_memory.store(candidate)
+
+        self.last_consolidation = time.time()
+        print("内存整合完成")
+
+    def retrieve_context(self, query: str, max_context_length: int = 2000) -> str:
+        """跨所有内存级别检索查询的相关上下文"""
+        query_embedding = np.random.rand(self.embedding_dim)  # 占位符
+
+        # 从所有内存级别检索
+        wm_results = self.working_memory.retrieve(query_embedding, top_k=3)
+        stm_results = self.short_term_memory.retrieve(query_embedding, top_k=3)
+        ltm_results = self.long_term_memory.retrieve(query_embedding, top_k=2)
+        em_results = self.episodic_memory.retrieve(query_embedding, top_k=2)
+
+        # 组合并排序结果
+        all_results = []
+
+        # 添加带有级别权重的结果
+        for segment in wm_results:
+            all_results.append((segment, 1.0))  # 工作内存最高权重
+
+        for segment in stm_results:
+            all_results.append((segment, 0.8))  # 短期内存高权重
+
+        for segment in ltm_results:
+            all_results.append((segment, 0.6))  # 长期内存中等权重
+
+        for segment in em_results:
+            all_results.append((segment, 0.9))  # 情景内存非常高权重
+
+        # 按相关性排序并组装上下文
+        all_results.sort(key=lambda x: x[1], reverse=True)
+
+        assembled_context = []
+        current_length = 0
+
+        for segment, weight in all_results:
+            segment_length = len(segment.content)
+            if current_length + segment_length <= max_context_length:
+                assembled_context.append(f"[{segment.segment_type}] {segment.content}")
+                current_length += segment_length
+            else:
+                break
+
+        return "\n\n".join(assembled_context)
+
+    def get_system_status(self) -> Dict[str, Dict]:
+        """获取全面的系统状态"""
+        return {
+            'working_memory': self.working_memory.get_capacity_info(),
+            'short_term_memory': self.short_term_memory.get_capacity_info(),
+            'long_term_memory': self.long_term_memory.get_capacity_info(),
+            'episodic_memory': self.episodic_memory.get_capacity_info(),
+            'last_consolidation': self.last_consolidation,
+            'system_health': self._assess_system_health()
+        }
+
+    def _assess_system_health(self) -> Dict[str, str]:
+        """评估整体系统健康和性能"""
+        wm_info = self.working_memory.get_capacity_info()
+
+        health = {
+            'memory_pressure': 'low',
+            'consolidation_status': 'healthy',
+            'retrieval_performance': 'optimal'
+        }
+
+        if wm_info['segment_utilization'] > 0.9 or wm_info['token_utilization'] > 0.9:
+            health['memory_pressure'] = 'high'
+        elif wm_info['segment_utilization'] > 0.7 or wm_info['token_utilization'] > 0.7:
+            health['memory_pressure'] = 'medium'
+
+        if time.time() - self.last_consolidation > self.consolidation_interval * 2:
+            health['consolidation_status'] = 'overdue'
+
+        return health
+
+# 示例使用和演示
+def demonstrate_hierarchical_memory():
+    """演示分层内存系统"""
+    print("初始化分层内存系统...")
+    memory_system = HierarchicalMemorySystem()
+
+    # 处理一些样本输入
+    sample_inputs = [
+        ("上下文工程框架为LLM优化信息负载提供了系统化方法。", 0.9),
+        ("工作内存维护对当前处理信息的立即访问。", 0.7),
+        ("长期内存以多维索引存储压缩的历史上下文。", 0.8),
+        ("当超过容量阈值时会发生内存整合。", 0.6),
+        ("分层方法实现恒定的内存使用，与序列长度无关。", 0.9)
+    ]
+
+    print("\n处理样本输入...")
+    for content, importance in sample_inputs:
+        result = memory_system.process_input(content, importance)
+        print(f"  {result}")
+
+    # 强制整合以演示
+    memory_system._perform_consolidation()
+
+    # 测试检索
+    print("\n测试上下文检索...")
+    query = "系统中的内存整合是如何工作的？"
+    context = memory_system.retrieve_context(query)
+    print(f"查询: {query}")
+    print(f"检索的上下文:\n{context}")
+
 ## 与上下文工程综述的联系
 
 这个长上下文处理模块直接实现并扩展了[上下文工程综述](https://arxiv.org/pdf/2507.13334)的关键发现。
