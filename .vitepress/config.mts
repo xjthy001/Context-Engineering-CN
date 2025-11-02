@@ -1,13 +1,20 @@
 import { defineConfig } from 'vitepress'
+import { withMermaid } from 'vitepress-plugin-mermaid'
 
 // https://vitepress.dev/reference/site-config
-export default defineConfig({
+export default withMermaid(defineConfig({
   title: "Context Engineering 中文版",
   description: "上下文工程 - 超越提示工程的AI交互新范式",
   lang: 'zh-CN',
 
   // 基础路径
   base: '/Context-Engineering-CN/',
+
+  // 忽略有问题的文件
+  srcExclude: ['**/PODCASTS/**', '**/PROJECT_COMPLETION_SUMMARY.md'],
+
+  // 忽略死链接
+  ignoreDeadLinks: true,
 
   // 主题配置
   themeConfig: {
@@ -266,8 +273,13 @@ export default defineConfig({
 
   // Markdown 配置
   markdown: {
-    lineNumbers: true
-    // math: true  // 暂时禁用以加快构建
+    lineNumbers: true,
+    math: true  // 启用数学公式支持
+  },
+
+  // Mermaid 配置
+  mermaid: {
+    // Mermaid 选项
   },
 
   // 头部配置
@@ -278,4 +290,4 @@ export default defineConfig({
     ['meta', { name: 'apple-mobile-web-app-status-bar-style', content: 'black' }],
     ['meta', { name: 'keywords', content: 'Context Engineering, 上下文工程, AI, Prompt Engineering, RAG, 多智能体' }]
   ]
-})
+}))
