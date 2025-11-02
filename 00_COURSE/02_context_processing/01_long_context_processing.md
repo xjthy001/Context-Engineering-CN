@@ -777,6 +777,206 @@ class ShortTermMemory(MemoryLevel):
             recency_score=max(s.recency_score for s in segments),
             access_frequency=sum(s.access_frequency for s in segments),
             creation_time=min(s.creation_time for s in segments),
+            last_access_time=max(s.last_access_time for s in segments),
+            segment_type='consolidated',
+            retrieval_keys=list(set().union(*[s.retrieval_keys for s in segments])),
+            compression_ratio=0.3  # 高度压缩
+        )
+
+    def get_capacity_info(self) -> Dict[str, float]:
+        return {
+            'segment_utilization': len(self.segments) / self.max_segments,
+            'cluster_count': len(self.semantic_clusters),
+            'avg_cluster_size': np.mean([len(cluster) for cluster in self.semantic_clusters.values()]),
+            'compression_ratio': np.mean([s.compression_ratio for s in self.segments])
+        }
+
+class LongTermMemory(MemoryLevel):
+    """用于历史上下文的高度压缩、索引存储"""
+
+    def __init__(self, index_dimensions: int = 512):
+        self.segments: List[MemorySegment] = []
+        self.index_dimensions = index_dimensions
+        self.semantic_index = {}  # 分层语义索引
+        self.temporal_index = {}  # 基于时间的索引
+        self.importance_index = []  # 基于重要性检索的优先级队列
+
+    def store(self, segment: MemorySegment) -> bool:
+        """使用多维索引进行存储"""
+        # 对长期存储应用激进压缩
+        compressed_segment = self._apply_long_term_compression(segment)
+        compressed_segment.segment_type = 'long_term'
+
+        self.segments.append(compressed_segment)
+
+        # 更新索引
+        self._update_semantic_index(compressed_segment)
+        self._update_temporal_index(compressed_segment)
+        self._update_importance_index(compressed_segment)
+
+        return True
+
+    def _apply_long_term_compression(self, segment: MemorySegment) -> MemorySegment:
+        """对长期存储应用激进压缩"""
+        # 仅提取最基本的信息
+        content_parts = segment.content.split('.')
+        essential_parts = []
+
+        for part in content_parts:
+            # 保留高信息密度的部分
+            word_count = len(part.split())
+            if word_count > 3:
+                # 简单启发式: 保留包含特定术语的部分
+                if any(term in part.lower() for term in
+                       ['result', 'conclusion', 'important', 'key', 'main', 'significant']):
+                    essential_parts.append(part.strip())
+
+        if not essential_parts:
+            # 后备方案: 从原始内容创建摘要
+            words = segment.content.split()
+            essential_parts = [' '.join(words[:min(20, len(words))])]
+
+        compressed_content = '. '.join(essential_parts)
+
+        # 创建极度压缩的新段
+        return MemorySegment(
+            content=compressed_content,
+            embedding=segment.embedding,
+            importance_score=segment.importance_score,
+            recency_score=segment.recency_score * 0.1,  # 衰减近期性
+            access_frequency=segment.access_frequency,
+            creation_time=segment.creation_time,
+            last_access_time=segment.last_access_time,
+            segment_type='long_term',
+            retrieval_keys=segment.retrieval_keys,
+            compression_ratio=0.1  # 90%压缩
+        )
+
+    def _update_semantic_index(self, segment: MemorySegment):
+        """更新语义索引以实现高效检索"""
+        for key in segment.retrieval_keys:
+            if key not in self.semantic_index:
+                self.semantic_index[key] = []
+            self.semantic_index[key].append(len(self.segments) - 1)
+
+    def _update_temporal_index(self, segment: MemorySegment):
+        """更新时间索引"""
+        time_bucket = int(segment.creation_time // 3600)  # 小时桶
+        if time_bucket not in self.temporal_index:
+            self.temporal_index[time_bucket] = []
+        self.temporal_index[time_bucket].append(len(self.segments) - 1)
+
+    def _update_importance_index(self, segment: MemorySegment):
+        """更新基于重要性的优先级队列"""
+        heapq.heappush(self.importance_index,
+                      (-segment.importance_score, len(self.segments) - 1))
+
+    def retrieve(self, query_embedding: np.ndarray, top_k: int = 5) -> List[MemorySegment]:
+        """带有相关性排序的多索引检索"""
+        candidate_indices = set()
+
+        # 从重要性索引获取候选(前20%)
+        n_important = max(1, len(self.importance_index) // 5)
+        important_candidates = heapq.nsmallest(n_important, self.importance_index)
+        candidate_indices.update(idx for _, idx in important_candidates)
+
+        # 计算候选的相似度
+        similarities = []
+        for idx in candidate_indices:
+            if idx < len(self.segments):
+                segment = self.segments[idx]
+                similarity = np.dot(query_embedding, segment.embedding) / (
+                    np.linalg.norm(query_embedding) * np.linalg.norm(segment.embedding)
+                )
+                similarities.append((similarity, segment))
+
+        similarities.sort(reverse=True)
+        return [segment for _, segment in similarities[:top_k]]
+
+    def consolidate(self) -> List[MemorySegment]:
+        """长期内存不再进一步提升，但可以重组"""
+        # 定期重组索引以提高效率
+        self._reorganize_indices()
+        return []
+
+    def _reorganize_indices(self):
+        """重组索引以获得更好的检索性能"""
+        # 重建重要性索引
+        self.importance_index = []
+        for i, segment in enumerate(self.segments):
+            heapq.heappush(self.importance_index, (-segment.importance_score, i))
+
+    def get_capacity_info(self) -> Dict[str, float]:
+        return {
+            'total_segments': len(self.segments),
+            'semantic_keys': len(self.semantic_index),
+            'temporal_buckets': len(self.temporal_index),
+            'avg_compression': np.mean([s.compression_ratio for s in self.segments])
+        }
+
+class EpisodicMemory(MemoryLevel):
+    """关键事件和决策点存储"""
+
+    def __init__(self, max_episodes: int = 1000):
+        self.max_episodes = max_episodes
+        self.episodes: List[MemorySegment] = []
+        self.decision_tree = {}  # 跟踪决策序列
+        self.outcome_associations = {}  # 将情节与结果关联
+
+    def store(self, segment: MemorySegment) -> bool:
+        """存储重要情节并跟踪结果"""
+        segment.segment_type = 'episodic'
+        self.episodes.append(segment)
+
+        # 如果这代表一个决策，则在决策树中跟踪
+        if 'decision' in segment.content.lower() or 'chose' in segment.content.lower():
+            self._update_decision_tree(segment)
+
+        # 维护大小限制
+        if len(self.episodes) > self.max_episodes:
+            self.episodes.pop(0)  # 移除最旧的情节
+
+        return True
+
+    def _update_decision_tree(self, segment: MemorySegment):
+        """跟踪决策序列以进行模式学习"""
+        # 简化的决策跟踪
+        decision_key = f"decision_{len(self.episodes)}"
+        self.decision_tree[decision_key] = {
+            'content': segment.content,
+            'timestamp': segment.creation_time,
+            'importance': segment.importance_score
+        }
+
+    def retrieve(self, query_embedding: np.ndarray, top_k: int = 5) -> List[MemorySegment]:
+        """检索相关情节"""
+        similarities = []
+
+        for episode in self.episodes:
+            similarity = np.dot(query_embedding, episode.embedding) / (
+                np.linalg.norm(query_embedding) * np.linalg.norm(episode.embedding)
+            )
+
+            # 为高重要性情节增强相似度
+            importance_boost = 1 + (episode.importance_score * 0.3)
+            adjusted_similarity = similarity * importance_boost
+
+            similarities.append((adjusted_similarity, episode))
+
+        similarities.sort(reverse=True)
+        return [episode for _, episode in similarities[:top_k]]
+
+    def consolidate(self) -> List[MemorySegment]:
+        """情景内存通常不会进一步整合"""
+        return []
+
+    def get_capacity_info(self) -> Dict[str, float]:
+        return {
+            'episode_count': len(self.episodes),
+            'utilization': len(self.episodes) / self.max_episodes,
+            'decision_count': len(self.decision_tree),
+            'avg_importance': np.mean([e.importance_score for e in self.episodes])
+        }
 
 ## 与上下文工程综述的联系
 
