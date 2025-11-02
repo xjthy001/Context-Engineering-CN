@@ -1,0 +1,480 @@
+{
+  "total_tasks": 1,
+  "pending": 1,
+  "in_progress": 0,
+  "completed": 0,
+  "tasks": [
+    {
+      "task_id": "TASK_001",
+      "source_file": "/app/Context-Engineering/00_COURSE/02_context_processing/02_self_refinement.md",
+      "target_file": "/app/Context-Engineering/cn/00_COURSE/02_context_processing/02_self_refinement.md",
+      "chapter": "02_context_processing",
+      "file_name": "02_self_refinement.md",
+      "total_lines": 2523,
+      "total_chars": 112024,
+      "segments": [
+        {
+          "segment_id": 1,
+          "start_line": 1,
+          "end_line": 1,
+          "char_count": 18,
+          "has_code": false,
+          "segment_type": "header",
+          "content": "# Self-Refinement\n"
+        },
+        {
+          "segment_id": 2,
+          "start_line": 2,
+          "end_line": 7,
+          "char_count": 275,
+          "has_code": false,
+          "segment_type": "header",
+          "content": "## Adaptive Context Improvement Through Iterative Optimization\n\n> **Module 02.2** | *Context Engineering Course: From Foundations to Frontier Systems*\n> \n> Building on [Context Engineering Survey](htt..."
+        },
+        {
+          "segment_id": 3,
+          "start_line": 8,
+          "end_line": 9,
+          "char_count": 5,
+          "has_code": false,
+          "segment_type": "content",
+          "content": "---\n\n"
+        },
+        {
+          "segment_id": 4,
+          "start_line": 10,
+          "end_line": 18,
+          "char_count": 419,
+          "has_code": false,
+          "segment_type": "header",
+          "content": "## Learning Objectives\n\nBy the end of this module, you will understand and implement:\n\n- **Iterative Refinement Loops**: Self-improving context optimization cycles\n- **Quality Assessment Mechanisms**:..."
+        },
+        {
+          "segment_id": 5,
+          "start_line": 19,
+          "end_line": 20,
+          "char_count": 5,
+          "has_code": false,
+          "segment_type": "content",
+          "content": "---\n\n"
+        },
+        {
+          "segment_id": 6,
+          "start_line": 21,
+          "end_line": 24,
+          "char_count": 274,
+          "has_code": false,
+          "segment_type": "header",
+          "content": "## Conceptual Progression: From Static Context to Self-Improving Systems\n\nThink of self-refinement like the process of becoming an expert writer - starting with rough drafts, then revising, editing, a..."
+        },
+        {
+          "segment_id": 7,
+          "start_line": 25,
+          "end_line": 35,
+          "char_count": 346,
+          "has_code": true,
+          "segment_type": "header",
+          "content": "### Stage 1: Single-Pass Context Assembly\n```\nInput → Context Assembly → Output\n```\n**Context**: Like writing a first draft - you gather information, assemble it once, and produce output. No revision ..."
+        },
+        {
+          "segment_id": 8,
+          "start_line": 36,
+          "end_line": 46,
+          "char_count": 399,
+          "has_code": true,
+          "segment_type": "header",
+          "content": "### Stage 2: Error-Driven Revision\n```\nInput → Context Assembly → Output → Error Detection → Revision → Improved Output\n```\n**Context**: Like having an editor review your work and suggest specific imp..."
+        },
+        {
+          "segment_id": 9,
+          "start_line": 47,
+          "end_line": 62,
+          "char_count": 508,
+          "has_code": true,
+          "segment_type": "header",
+          "content": "### Stage 3: Quality-Driven Iterative Refinement\n```\nInput → Context Assembly → Quality Assessment → \n   ↓\nIf quality < threshold:\n   Context Refinement → Reassembly → Repeat\nElse:\n   Deliver Output\n`..."
+        },
+        {
+          "segment_id": 10,
+          "start_line": 63,
+          "end_line": 75,
+          "char_count": 495,
+          "has_code": true,
+          "segment_type": "header",
+          "content": "### Stage 4: Predictive Self-Optimization\n```\nHistorical Performance Analysis → Strategy Learning → \nPredictive Context Assembly → Quality Validation → \nOutput Delivery + Strategy Update\n```\n**Context..."
+        },
+        {
+          "segment_id": 11,
+          "start_line": 76,
+          "end_line": 102,
+          "char_count": 1597,
+          "has_code": true,
+          "segment_type": "header",
+          "content": "### Stage 5: Meta-Cognitive Self-Awareness\n```\n┌─────────────────────────────────────────────────────────────────┐\n│                 META-COGNITIVE MONITORING                        │\n│  \"How am I thi..."
+        },
+        {
+          "segment_id": 12,
+          "start_line": 103,
+          "end_line": 104,
+          "char_count": 5,
+          "has_code": false,
+          "segment_type": "content",
+          "content": "---\n\n"
+        },
+        {
+          "segment_id": 13,
+          "start_line": 105,
+          "end_line": 106,
+          "char_count": 29,
+          "has_code": false,
+          "segment_type": "header",
+          "content": "## Mathematical Foundations\n\n"
+        },
+        {
+          "segment_id": 14,
+          "start_line": 107,
+          "end_line": 127,
+          "char_count": 645,
+          "has_code": true,
+          "segment_type": "header",
+          "content": "### Iterative Quality Optimization\n```\nContext Refinement as Optimization Problem:\n\nC* = argmax_C Q(C, T, H)\n\nWhere:\n- C = context configuration\n- T = current task\n- H = historical performance data\n- ..."
+        },
+        {
+          "segment_id": 15,
+          "start_line": 128,
+          "end_line": 141,
+          "char_count": 625,
+          "has_code": true,
+          "segment_type": "header",
+          "content": "### Self-Assessment Confidence Modeling\n```\nConfidence Estimation: P(Success | Context, Task, Strategy)\n\nBayesian Update:\nP(Strategy | Outcome) ∝ P(Outcome | Strategy) × P(Strategy)\n\nWhere:\n- P(Strate..."
+        },
+        {
+          "segment_id": 16,
+          "start_line": 142,
+          "end_line": 156,
+          "char_count": 701,
+          "has_code": true,
+          "segment_type": "header",
+          "content": "### Meta-Learning Adaptation Rate\n```\nStrategy Evolution Rate: \ndS/dt = f(Performance_Gap, Exploration_Rate, Confidence_Level)\n\nWhere:\n- Performance_Gap = Target_Quality - Current_Quality\n- Exploratio..."
+        },
+        {
+          "segment_id": 17,
+          "start_line": 157,
+          "end_line": 158,
+          "char_count": 5,
+          "has_code": false,
+          "segment_type": "content",
+          "content": "---\n\n"
+        },
+        {
+          "segment_id": 18,
+          "start_line": 159,
+          "end_line": 246,
+          "char_count": 5564,
+          "has_code": true,
+          "segment_type": "header",
+          "content": "## Visual Self-Refinement Architecture\n\n```\n┌─────────────────────────────────────────────────────────────────┐\n│                  SELF-REFINEMENT PROCESSING PIPELINE            │\n├───────────────────..."
+        },
+        {
+          "segment_id": 19,
+          "start_line": 247,
+          "end_line": 247,
+          "char_count": 1,
+          "has_code": false,
+          "segment_type": "content",
+          "content": "\n"
+        },
+        {
+          "segment_id": 20,
+          "start_line": 248,
+          "end_line": 249,
+          "char_count": 5,
+          "has_code": false,
+          "segment_type": "content",
+          "content": "---\n\n"
+        },
+        {
+          "segment_id": 21,
+          "start_line": 250,
+          "end_line": 253,
+          "char_count": 164,
+          "has_code": false,
+          "segment_type": "header",
+          "content": "## Software 3.0 Paradigm 1: Prompts (Self-Refinement Templates)\n\nStrategic prompts help systems reason about their own context quality and improvement strategies.\n\n"
+        },
+        {
+          "segment_id": 22,
+          "start_line": 254,
+          "end_line": 441,
+          "char_count": 7294,
+          "has_code": true,
+          "segment_type": "header",
+          "content": "### Quality Assessment and Refinement Template\n\n```markdown\n# Context Quality Assessment and Refinement Framework\n\n## Self-Assessment Protocol\nYou are a context refinement system evaluating and improv..."
+        },
+        {
+          "segment_id": 23,
+          "start_line": 442,
+          "end_line": 444,
+          "char_count": 465,
+          "has_code": false,
+          "segment_type": "content",
+          "content": "\n**Ground-up Explanation**: This template works like having a skilled editor review and improve a document through multiple drafts. The system systematically evaluates different aspects of quality (li..."
+        },
+        {
+          "segment_id": 24,
+          "start_line": 445,
+          "end_line": 607,
+          "char_count": 7279,
+          "has_code": true,
+          "segment_type": "header",
+          "content": "### Meta-Cognitive Monitoring Template (Continued)\n\n```xml\n<meta_cognitive_template name=\"self_aware_context_processing\">\n  <intent>Enable system to monitor and improve its own thinking processes duri..."
+        },
+        {
+          "segment_id": 25,
+          "start_line": 608,
+          "end_line": 610,
+          "char_count": 519,
+          "has_code": false,
+          "segment_type": "content",
+          "content": "\n**Ground-up Explanation**: This meta-cognitive template is like having a master chess player who not only makes good moves but constantly thinks about their thinking process. They ask themselves \"Why..."
+        },
+        {
+          "segment_id": 26,
+          "start_line": 611,
+          "end_line": 612,
+          "char_count": 5,
+          "has_code": false,
+          "segment_type": "content",
+          "content": "---\n\n"
+        },
+        {
+          "segment_id": 27,
+          "start_line": 613,
+          "end_line": 616,
+          "char_count": 176,
+          "has_code": false,
+          "segment_type": "header",
+          "content": "## Software 3.0 Paradigm 2: Programming (Self-Refinement Implementation)\n\nProgramming provides the computational mechanisms that enable sophisticated self-refinement systems.\n\n"
+        },
+        {
+          "segment_id": 28,
+          "start_line": 617,
+          "end_line": 815,
+          "char_count": 8072,
+          "has_code": true,
+          "segment_type": "header",
+          "content": "### Iterative Quality Optimization Engine\n\n```python\nimport numpy as np\nfrom typing import Dict, List, Tuple, Callable, Optional\nfrom dataclasses import dataclass\nfrom abc import ABC, abstractmethod\ni..."
+        },
+        {
+          "segment_id": 29,
+          "start_line": 816,
+          "end_line": 1019,
+          "char_count": 8040,
+          "has_code": false,
+          "segment_type": "content",
+          "content": "        \n        return completeness_ratio\n    \n    def suggest_improvements(self, context: str, task: str) -> List[RefinementAction]:\n        \"\"\"Suggest improvements for completeness\"\"\"\n        sugge..."
+        },
+        {
+          "segment_id": 30,
+          "start_line": 1020,
+          "end_line": 1218,
+          "char_count": 8018,
+          "has_code": false,
+          "segment_type": "content",
+          "content": "        transition_words = [\n            'however', 'therefore', 'furthermore', 'additionally', 'moreover',\n            'consequently', 'nevertheless', 'meanwhile', 'similarly', 'in contrast'\n        ..."
+        },
+        {
+          "segment_id": 31,
+          "start_line": 1219,
+          "end_line": 1400,
+          "char_count": 8021,
+          "has_code": false,
+          "segment_type": "content",
+          "content": "\nclass SelfRefinementEngine:\n    \"\"\"Main engine for iterative context self-refinement\"\"\"\n    \n    def __init__(self, quality_threshold: float = 0.8, max_iterations: int = 5):\n        self.quality_thre..."
+        },
+        {
+          "segment_id": 32,
+          "start_line": 1401,
+          "end_line": 1558,
+          "char_count": 8044,
+          "has_code": false,
+          "segment_type": "content",
+          "content": "                dimension_boost = 1.0 + (0.8 - assessment.relevance_score)\n            elif action.target_dimension == QualityDimension.COMPLETENESS:\n                dimension_boost = 1.0 + (0.8 - ass..."
+        },
+        {
+          "segment_id": 33,
+          "start_line": 1559,
+          "end_line": 1734,
+          "char_count": 8041,
+          "has_code": false,
+          "segment_type": "content",
+          "content": "    \n    def _remove_redundancy(self, context: str) -> str:\n        \"\"\"Remove redundant information\"\"\"\n        sentences = [s.strip() for s in context.split('.') if s.strip()]\n        \n        # Remov..."
+        },
+        {
+          "segment_id": 34,
+          "start_line": 1735,
+          "end_line": 1776,
+          "char_count": 1944,
+          "has_code": true,
+          "segment_type": "code",
+          "content": "    print(\"\\n\" + \"=\" * 50)\n    \n    # Perform refinement\n    refined_context, final_assessment, report = refinement_engine.refine_context(\n        initial_context, task\n    )\n    \n    print(\"\\n\" + \"=\"..."
+        },
+        {
+          "segment_id": 35,
+          "start_line": 1777,
+          "end_line": 1778,
+          "char_count": 5,
+          "has_code": false,
+          "segment_type": "content",
+          "content": "---\n\n"
+        },
+        {
+          "segment_id": 36,
+          "start_line": 1779,
+          "end_line": 1782,
+          "char_count": 158,
+          "has_code": false,
+          "segment_type": "header",
+          "content": "## Software 3.0 Paradigm 3: Protocols (Adaptive Refinement Shells)\n\nProtocols provide self-modifying refinement patterns that evolve based on effectiveness.\n\n"
+        },
+        {
+          "segment_id": 37,
+          "start_line": 1783,
+          "end_line": 1901,
+          "char_count": 6445,
+          "has_code": true,
+          "segment_type": "header",
+          "content": "### Meta-Learning Refinement Protocol\n\n```\n/refine.meta_learning{\n    intent=\"Continuously improve refinement strategies through experience and pattern recognition\",\n    \n    input={\n        refinemen..."
+        },
+        {
+          "segment_id": 38,
+          "start_line": 1902,
+          "end_line": 1904,
+          "char_count": 410,
+          "has_code": false,
+          "segment_type": "content",
+          "content": "\n**Ground-up Explanation**: This protocol creates a system that learns to learn better - like a master craftsperson who not only improves individual pieces of work but continuously refines their appro..."
+        },
+        {
+          "segment_id": 39,
+          "start_line": 1905,
+          "end_line": 1906,
+          "char_count": 5,
+          "has_code": false,
+          "segment_type": "content",
+          "content": "---\n\n"
+        },
+        {
+          "segment_id": 40,
+          "start_line": 1907,
+          "end_line": 1908,
+          "char_count": 47,
+          "has_code": false,
+          "segment_type": "header",
+          "content": "## Research Connections and Future Directions\n\n"
+        },
+        {
+          "segment_id": 41,
+          "start_line": 1909,
+          "end_line": 1927,
+          "char_count": 1093,
+          "has_code": false,
+          "segment_type": "header",
+          "content": "### Connection to Context Engineering Survey\n\nThis self-refinement module directly implements and extends key concepts from the [Context Engineering Survey](https://arxiv.org/pdf/2507.13334):\n\n**Self-..."
+        },
+        {
+          "segment_id": 42,
+          "start_line": 1928,
+          "end_line": 1929,
+          "char_count": 5,
+          "has_code": false,
+          "segment_type": "content",
+          "content": "---\n\n"
+        },
+        {
+          "segment_id": 43,
+          "start_line": 1930,
+          "end_line": 1931,
+          "char_count": 42,
+          "has_code": false,
+          "segment_type": "header",
+          "content": "## Advanced Self-Refinement Applications\n\n"
+        },
+        {
+          "segment_id": 44,
+          "start_line": 1932,
+          "end_line": 2078,
+          "char_count": 6150,
+          "has_code": true,
+          "segment_type": "header",
+          "content": "### Collaborative Refinement Networks\n\n```python\nclass CollaborativeRefinementNetwork:\n    \"\"\"Network of refinement agents that learn from each other\"\"\"\n    \n    def __init__(self, num_agents: int = 3..."
+        },
+        {
+          "segment_id": 45,
+          "start_line": 2079,
+          "end_line": 2079,
+          "char_count": 1,
+          "has_code": false,
+          "segment_type": "content",
+          "content": "\n"
+        },
+        {
+          "segment_id": 46,
+          "start_line": 2080,
+          "end_line": 2266,
+          "char_count": 8026,
+          "has_code": true,
+          "segment_type": "header",
+          "content": "### Adaptive Quality Threshold System\n\n```python\nclass AdaptiveQualityThresholds:\n    \"\"\"Dynamically adjust quality thresholds based on task importance and context\"\"\"\n    \n    def __init__(self):\n    ..."
+        },
+        {
+          "segment_id": 47,
+          "start_line": 2267,
+          "end_line": 2442,
+          "char_count": 8002,
+          "has_code": false,
+          "segment_type": "content",
+          "content": "            \n            if iterations > 0:\n                improvement_per_iteration.append(total_improvement / iterations)\n            else:\n                improvement_per_iteration.append(0)\n     ..."
+        },
+        {
+          "segment_id": 48,
+          "start_line": 2443,
+          "end_line": 2495,
+          "char_count": 1968,
+          "has_code": true,
+          "segment_type": "code",
+          "content": "        {\n            'context': 'Company A is good. Company B is also good. Both companies are profitable.',\n            'task': 'Compare Company A and Company B across multiple dimensions',\n        ..."
+        },
+        {
+          "segment_id": 49,
+          "start_line": 2496,
+          "end_line": 2497,
+          "char_count": 5,
+          "has_code": false,
+          "segment_type": "content",
+          "content": "---\n\n"
+        },
+        {
+          "segment_id": 50,
+          "start_line": 2498,
+          "end_line": 2520,
+          "char_count": 1377,
+          "has_code": false,
+          "segment_type": "header",
+          "content": "## Summary and Next Steps\n\n**Core Concepts Mastered**:\n- Iterative quality optimization through systematic refinement cycles\n- Multi-dimensional context assessment (relevance, completeness, coherence,..."
+        },
+        {
+          "segment_id": 51,
+          "start_line": 2521,
+          "end_line": 2523,
+          "char_count": 282,
+          "has_code": false,
+          "segment_type": "content",
+          "content": "---\n\n*This module demonstrates the evolution from static context assembly to self-improving systems, embodying the Software 3.0 principle of systems that not only optimize context but continuously enh..."
+        }
+      ],
+      "status": "pending",
+      "priority": 2
+    }
+  ]
+}
